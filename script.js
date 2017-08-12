@@ -5,13 +5,21 @@ var weatherMain="";
 var temp="";
 var unitDisplay="";
 var weatherIcon="";
-function getLocation() {
+
+$(document).ready(function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(getWeather);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
-}
+});
+// function getLocation() {
+//     if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(getWeather);
+//     } else {
+//         x.innerHTML = "Geolocation is not supported by this browser.";
+//     }
+// }
 function getWeather(position) {
     lat=position.coords.latitude;
     lon=position.coords.longitude;
@@ -37,8 +45,22 @@ function getWeather(position) {
         }
         
     });
+    
+    function displayWeather(){
+        x.innerHTML="<p>"+weatherMain+" the temperature is "+temp+" in "+unitDisplay+"<img src='http://openweathermap.org/img/w/"+weatherIcon+".png'"+"></p>";    
+    }
+    
+    function toggleTemperature(){
+        if (unitDisplay=="Celsius"){
+            unitDisplay="Fahrentheit";
+            temp=(temp*(1.8)+32).toFixed(2);
+        }else{
+            unitDisplay="Celsius";
+            temp=((temp-32)/1.8).toFixed(2);
+        }
+        displayWeather();
+    }
 
+$("#toggleTemperature").click(toggleTemperature);
     
 }
-
-
