@@ -1,14 +1,18 @@
 var lat=0.0;
 var lon=0.0;
 var x = document.getElementById("demo");
+var weatherMain="";
+var temp="";
+var unitDisplay="";
+var weatherIcon="";
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+        navigator.geolocation.getCurrentPosition(getWeather);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
-function showPosition(position) {
+function getWeather(position) {
     lat=position.coords.latitude;
     lon=position.coords.longitude;
     // x.innerHTML = "Latitude: " + position.coords.latitude + 
@@ -25,10 +29,11 @@ function showPosition(position) {
         data:data,
         type:"GET",
         success:function(response){
-            var weatherMain=response.weather[0].main;
-            var temp=response.main.temp;
-            x.innerHTML="<p>The weather today is "+weatherMain+" and the temperature is "+temp+" in "+unitDisplay+"</p>";
-            console.log(response.main.temp)
+            weatherMain=response.weather[0].main;
+            temp=response.main.temp;
+            weatherIcon=response.weather[0].icon;
+            x.innerHTML="<p>"+weatherMain+" the temperature is "+temp+" in "+unitDisplay+"<img src='http://openweathermap.org/img/w/"+weatherIcon+".png'"+"></p>";
+            console.log(response.weather[0].icon);
         }
         
     });
